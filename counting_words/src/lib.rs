@@ -9,6 +9,7 @@ pub fn counting_words(words: &str) -> HashMap<String, u32> {
             res.push_str(&i.to_ascii_lowercase().to_string())
         }
     }
+    
     let res = res.trim_matches('\'').to_string();
     
     if !res.is_empty() {
