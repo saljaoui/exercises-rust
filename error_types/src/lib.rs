@@ -26,6 +26,10 @@ pub struct Form {
 
 impl Form {
     pub fn validate(&self) -> Result<(), FormError> {
+        if self.password.len() < 8 {
+            return Err( FormError::new("password", self.password.clone(), "Password should be at least 8 characters long") )
+        }
+
         let mut is_ascii_digit: bool = false;
         let mut is_ascii_alphabetic: bool = false;
         let mut is_ascii_punctuation: bool = false;
@@ -46,9 +50,76 @@ impl Form {
 
         if self.name.is_empty() {
         return Err( FormError::new("name",  self.name.clone(), "Username is empty") )
-        } else if self.password.len() < 8 {
+        }
+        if self.password.len() < 8 {
         return Err( FormError::new("password", self.name.clone(), "Password should be at least 8 characters long") )
         }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_error_type() {
+        let cases = [
+            (
+                Form {
+                    name: "Katy".to_owned(),
+                    password: "qwTw12&%$3sa1dty_".to_owned(),
+                },
+                Ok(()),
+            ),
+            (
+                Form {
+                    name: "".to_owned(),
+                    password: "qwTw12&%$3sa1dty_".to_owned(),
+                },
+                Err(("name".to_string(), "".to_owned(), "Username is empty".to_string())),
+            ),
+            (
+                Form {
+                    name: "Someone".to_owned(),
+                    password: "12345".to_owned(),
+                },
+                Err(("password".to_string(), "12345".to_owned(), "Password should be at least 8 characters long".to_string())),
+            ),
+            (
+                Form {
+                    name: "Someone".to_owned(),
+                    password: "sdASDsrW".to_owned(),
+                },
+                Err(("password".to_string(), "sdASDsrW".to_owned(), "Password should be a combination of ASCII numbers, letters and symbols".to_string())),
+            ),
+            (
+                Form {
+                    name: "Someone".to_owned(),
+                    password: "dsGE1SAD213".to_owned(),
+                },
+                Err(("password".to_string(), "dsGE1SAD213".to_owned(), "Password should be a combination of ASCII numbers, letters and symbols".to_string())),
+            ),
+            (
+                Form {
+                    name: "Someone".to_owned(),
+                    password: "dsaSD&%DF!?=".to_owned(),
+                },
+                Err(("password".to_string(), "dsaSD&%DF!?=".to_owned(), "Password should be a combination of ASCII numbers, letters and symbols".to_string())),
+            ),
+        ];
+
+        for (form, expected) in cases {
+            match (form.validate(), expected) {
+                (Ok(()), Ok(())) => {} // all good
+                (Err(actual), Err((field, value, msg))) => {
+                    assert_eq!(actual.form_values, (field, value));
+                    assert_eq!(actual.err, msg);
+                }
+                (result, expected) => {
+                    panic!("Mismatch!\nGot: {:?}\nExpected: {:?}", result, expected);
+                }
+            }
+        }
     }
 }
