@@ -8,8 +8,8 @@ pub fn prev_prime(nbr: u64) -> u64  {
         }
     }
     0
-
 }
+
 fn check(nbr: u64) -> bool {
     for n in 2..nbr {
         if nbr % n == 0 {
