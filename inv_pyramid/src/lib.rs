@@ -1,15 +1,14 @@
 pub fn inv_pyramid(v: String, i: u32) -> Vec<String> {
     let mut res: Vec<String> = Vec::new();
-
     let mut string: String = String::new();
+    
+    if 0 == i {
+        return res;
+    }
 
-    for index1 in 0..i {
-        for _ in 0..index1 + 1 {
-            string.push_str(" ");
-        }
-        for _ in 0..index1 + 1 {
-            string.push_str(&v);
-        }
+    for index in 0..i {
+        string.push_str(&draw(" ", index));
+        string.push_str(&draw(&v, index));
 
         if !string.is_empty() {
             res.push(string.clone());
@@ -17,18 +16,17 @@ pub fn inv_pyramid(v: String, i: u32) -> Vec<String> {
         }
     }
 
-    for index1 in (0..i).rev() {
-        for _ in 0..index1 {
-            string.push_str(" ");
-        }
-        for _ in 0..index1 {
-            string.push_str(&v);
-        }
-        if !string.is_empty() {
-            res.push(string.clone());
-            string.clear();
-        }
+    for index in (0..res.len() - 1).rev() {
+        res.push(res[index].clone());
     }
 
     res
+}
+
+fn draw(str: &str, index: u32) -> String {
+    let mut string: String = String::new();
+    for _ in 0..index + 1 {
+        string.push_str(str);
+    }
+    string
 }
