@@ -1,14 +1,22 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+pub fn next_prime(nbr: u64) -> u64 {
+    let max = u64::MAX;
+    if nbr < 2 {
+        return 2;
+    }
+
+    for i in nbr..max {
+        if check(i) {
+            return i;
+        }
+    }
+    2
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+fn check(n: u64) -> bool {
+    for i in 2..100 {
+        if n % i == 0 && n != i {
+            return false;
+        }
     }
+    true
 }
