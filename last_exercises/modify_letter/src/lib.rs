@@ -1,14 +1,35 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+pub fn remove_letter_sensitive(s: &str, letter: char) -> String {
+    let mut res: String = String::new();
+    for i in s.chars() {
+        if i != letter {
+            res.push(i)
+        }
+    }
+    res
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn remove_letter_insensitive(s: &str, letter: char) -> String {
+    let mut res: String = String::new();
+    for i in s.chars() {
+        if i.to_ascii_lowercase() != letter.to_ascii_lowercase() {
+            res.push(i)
+        }
     }
+    res
+}
+
+pub fn swap_letter_case(s: &str, letter: char) -> String {
+    let mut res: String = String::new();
+    for i in s.chars() {
+        if i.to_ascii_lowercase() == letter.to_ascii_lowercase() {
+            if i.is_ascii_lowercase() {
+                res.push(i.to_ascii_uppercase())
+            } else {
+                res.push(i.to_ascii_lowercase())
+            }
+        } else {
+            res.push(i)
+        }
+    }
+    res
 }
