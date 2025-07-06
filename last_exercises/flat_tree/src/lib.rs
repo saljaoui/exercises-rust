@@ -1,14 +1,9 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use std::collections::BTreeSet;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn flatten_tree<T: ToOwned<Owned = T> + std::fmt::Debug + Clone>(tree: &BTreeSet<T>) -> Vec<T> {
+    let mut res = vec![];
+    for t in tree {
+        res.push(t.clone());
     }
+    res
 }
