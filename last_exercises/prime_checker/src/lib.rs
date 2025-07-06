@@ -1,14 +1,28 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+#[derive(PartialEq, Eq, Debug)]
+pub enum PrimeErr {
+    Even,
+    Divider(u32),
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn prime_checker(nb: u32) -> Option<Result<u32, PrimeErr>> {
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    if nb < 2 {
+        return None;
     }
+
+    if nb == 2 {
+        return Some(Ok(nb));
+    }
+
+    if nb % 2 == 0 {
+        return Some(Err(PrimeErr::Even));
+    }
+
+    for i in 2..1000000 {
+        if nb % i == 0  && nb != i {
+            return Some(Err(PrimeErr::Divider(i)));
+        }
+    }
+
+    Some(Ok(nb))
 }
