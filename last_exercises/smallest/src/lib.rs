@@ -1,14 +1,11 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use std::collections::HashMap;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn smallest(h: HashMap<&str, i32>) -> i32 {
+    let mut res: i32 = i32::MAX;
+    for (key, val) in h {
+        if res >= val {
+            res = val
+        }
     }
+    res
 }
