@@ -1,14 +1,11 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn parts_sums(arr: &[u64]) -> Vec<u64>{
+    let res: Vec<u64> = Vec::new();
+    for i in 0..arr.len() {
+        let soufian = 0;
+        for ii in i..arr.len() {
+            soufian += arr[ii]
+        }
+        res.push(soufian)
     }
+    res
 }
