@@ -6,7 +6,7 @@ pub fn scytale_decoder(message: String, i: u32) -> Option<String> {
     if message == "" || i == 0 {
         return None
     }
-    
+
     let mut vec: Vec<String> = vec![];
 
     for s in 0..lines {
